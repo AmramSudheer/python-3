@@ -1,0 +1,95 @@
+print('''  
+             __  __                                         
+            / _|/ _|                                        
+   ___ ___ | |_| |_ ___  ___                                
+  / __/ _ \|  _|  _/ _ \/ _ \            _     _            
+ | (_| (_) | | | ||  __/  __/           | |   (_)           
+  \___\___/|_| |_| \___|\___|  __ _  ___| |__  _ _ __   ___ 
+                   | '_ ` _ \ / _` |/ __| '_ \| | '_ \ / _ 
+                   | | | | | | (_| | (__| | | | | | | |  __/
+                   |_| |_| |_|\__,_|\___|_| |_|_|_| |_|\___|             ''')
+menu = {
+    "expresso":{
+        "ingredients":{
+            "water" : 50,
+            "coffee" : 10,
+        },
+        "cost":100,
+    },
+    "latte":{
+        "ingredients":{
+            "water":200,
+            "milk":150,
+            "coffee":24,
+        },
+        "cost": 120,
+    },
+    "capcuino":{
+        "ingredients":{
+        "water":250,
+        "milk":100,
+        "coffee": 24,
+    },
+    "cost" : 150
+    }
+}
+profit = 0
+resources={
+    "water":300,
+    "milk":250,
+    "coffee":100,
+}
+
+def sufficient(order):
+    
+    for i in order:
+        if order[i] > resources[i]:
+          print(f"there is no enough {i}.")
+          return  False
+    return True
+
+
+def coins():
+    print("insert the money")
+    total = int(input("how many 10 rupees notes :")) *10
+    total += int(input("how many 20 rupees notes :")) *20
+    total += int(input("how many 50 rupees notes :")) *50
+    total += int(input("how many 100 rupees notes :")) *100
+    return total
+
+def transcation(money_recevied,drink_cost):
+    if money_recevied >= drink_cost:
+        change = round(money_recevied - drink_cost ,2)
+        print(f"here is your change {change}")
+        global profit
+        profit += drink_cost
+        return True
+    else:
+        print("sorry insufficeient money and money is refunded")
+        return False
+
+def make_coffee(drink_name,order_ingredients):
+    for item in order_ingredients:
+        resources[item] -= order_ingredients[item]
+        print(f"here is your {drink_name}☕!enjoy")
+
+
+is_on = True
+while is_on:
+    
+    choice = input("what would you like (expresso),(latte),(capcuino): ")
+    if choice == "off":
+        is_on = False
+    elif choice == "report":
+        print(f"water {resources['water']}")
+        print(f"milk {resources['milk']}")
+        print(f"coffee {resources['coffee']}")
+        print(f"money {profit}")
+    else:
+        drink=menu[choice]
+        print(drink)
+        if sufficient(drink["ingredients"]):
+            payment = coins()
+            transcation(payment,drink["cost"])
+            make_coffee(choice,drink["ingredients"])
+
