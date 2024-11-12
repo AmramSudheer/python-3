@@ -1,0 +1,7 @@
+rows = 10
+colum = 5
+
+for i in range(rows):
+    for j in range(colum):
+        print("*",end=" ")
+    print(i)
